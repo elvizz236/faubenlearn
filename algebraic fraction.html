@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaubenLearn — Luxury French Learning</title>
+    <!-- Tailwind CSS (baseline utility fallback) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font (Nunito - Standard) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- COMPREHENSIVE LUXURY CUSTOM STYLESHEET -->
+    <style>
+        :root {
+            --brand-primary: #6366f1; /* Premium Indigo */
+            --brand-primary-border: #4f46e5;
+            --brand-secondary: #f59e0b; /* Golden Amber */
+            --brand-secondary-border: #d97706;
+            --brand-light-bg: #f8fafc;
+            --brand-light-blue: #e0e7ff;
+            --brand-gold: #fbbf24;
+            --brand-red: #ef4444;
+            --brand-red-border: #dc2626;
+            --brand-gray: #e2e8f0;
+            --brand-dark: #1e293b;
+            --brand-text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #ffffff;
+            color: var(--brand-dark);
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        /* Standard 3D Rounded Buttons */
+        .btn-3d {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.1s ease;
+            cursor: pointer;
+            border: 2px solid var(--border-color, var(--brand-gray));
+            background-color: var(--bg-color, #ffffff);
+            color: var(--text-color, var(--brand-dark));
+            box-shadow: 0 4px 0 var(--shadow-color, var(--brand-gray));
+        }
+
+        .btn-3d:active:not(:disabled) {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0 transparent;
+        }
+
+        .btn-3d:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 4px 0 var(--brand-gray) !important;
+            border-color: var(--brand-gray) !important;
+            background-color: #f1f5f9 !important;
+            color: #94a3b8 !important;
+        }
+
+        /* Navigation Button Active/Hover States */
+        .nav-item-active {
+            --bg-color: var(--brand-light-blue);
+            --border-color: #a5b4fc;
+            --text-color: var(--brand-primary-border);
+            --shadow-color: #a5b4fc;
+        }
+
+        /* Exercise Specific States */
+        .option-selected {
+            --bg-color: var(--brand-light-blue) !important;
+            --border-color: #a5b4fc !important;
+            --text-color: var(--brand-primary-border) !important;
+            --shadow-color: #a5b4fc !important;
+        }
+
+        .option-correct {
+            --bg-color: #dcfce7 !important;
+            --border-color: #22c55e !important;
+            --text-color: #15803d !important;
+            --shadow-color: #16a34a !important;
+        }
+
+        .option-incorrect {
+            --bg-color: #fee2e2 !important;
+            --border-color: var(--brand-red) !important;
+            --text-color: #b91c1c !important;
+            --shadow-color: var(--brand-red-border) !important;
+        }
+
+        /* Beautiful Dynamic Progress Bar Glow */
+        .progress-bar-glow {
+            box-shadow: 0 2px 4px rgba(99, 102, 241, 0.4);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Word Bank Workspace Spaces */
+        .word-bank-workspace {
+            min-height: 72px;
+            border-bottom: 3px dashed var(--brand-gray);
+            transition: all 0.2s ease;
+        }
+
+        /* Grid matching tiles */
+        .grid-tile {
+            min-height: 70px;
+            text-align: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            border-radius: 20px;
+        }
+
+        /* Elegant Animated Talk Bubble */
+        .talk-bubble {
+            position: relative;
+            background: #f8fafc;
+            border: 2px solid var(--brand-gray);
+            border-radius: 24px;
+        }
+
+        .talk-bubble::after {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 24px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 12px solid #f8fafc;
+            z-index: 2;
+        }
+
+        .talk-bubble::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 23px;
+            width: 0;
+            height: 0;
+            border-top: 11px solid transparent;
+            border-bottom: 11px solid transparent;
+            border-right: 13px solid var(--brand-gray);
+            z-index: 1;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--brand-gray);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e1;
+        }
+
+        /* Custom Soft CSS Animations */
+        @keyframes bounce-gentle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .logo-bounce {
+            animation: bounce-gentle 3s infinite ease-in-out;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Golden glow for premium luxury tiers */
+        .premium-glow {
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.25);
+            border-color: #fbbf24 !important;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    <!-- NOTIFICATION SYSTEM -->
+    <div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-[#ef4444] text-white px-6 py-3 rounded-2xl shadow-xl font-bold tracking-wide transition-all duration-300 opacity-0 pointer-events-none flex items-center gap-3">
+        <span>⚠️</span> <span id="toast-text">An error occurred!</span>
+    </div>
+
+    <!-- MAIN APP WRAPPER -->
+    <div class="flex h-screen w-full relative">
+
+        <!-- SCREEN 1: LANDING PAGE -->
+        <section id="screen-landing" class="screen w-full min-h-screen bg-slate-50 flex flex-col justify-between overflow-y-auto z-40 absolute inset-0">
+            <!-- Header Nav -->
+            <header class="max-w-7xl w-full mx-auto px-6 py-4 flex items-center justify-between border-b border-slate-200 bg-white">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="5" width="90" height="90" rx="28" fill="#6366f1" stroke="#4f46e5" stroke-width="4"/>
+                            <path d="M35 30 H70 M35 48 H60 M35 30 V75" stroke="#f59e0b" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="35" cy="30" r="4" fill="#ffffff"/>
+                            <circle cx="70" cy="30" r="4" fill="#ffffff"/>
+                        </svg>
+                    </div>
+                    <span class="text-2xl font-black text-slate-800 tracking-wider">FaubenLearn</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button onclick="openAuthScreen('login')" class="text-slate-600 hover:text-indigo-600 font-extrabold text-sm uppercase tracking-wide">Sign In</button>
+                    <button onclick="openAuthScreen('signup')" class="btn-3d px-5 py-2.5 text-sm uppercase" style="--bg-color: var(--brand-primary); --text-color: #white; --shadow-color: var(--brand-primary-border); --border-color: var(--brand-primary);">
+                        <span class="text-white">Get Started</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Hero Section -->
+            <main class="flex-1 max-w-6xl w-full mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-12">
+                <div class="flex-1 space-y-6 text-center md:text-left">
+                    <div class="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 text-indigo-700 px-4 py-1.5 rounded-full font-bold text-sm">
+                        <span>✨</span> Introducing Calligraphic French Learning
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-black leading-tight text-slate-900">
+                        The luxury way to learn <span class="text-indigo-600">French</span>.
+                    </h1>
+                    <p class="text-lg text-slate-600 font-medium">
+                        Ditch repetitive gamified characters. Enjoy high-fidelity, adaptive calligraphic lessons calibrated exactly to your individual level. Real conversations. Unlimited possibilities.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
+                        <button onclick="openAuthScreen('signup')" class="btn-3d px-8 py-4 text-lg w-full sm:w-auto" style="--bg-color: var(--brand-primary); --shadow-color: var(--brand-primary-border); --border-color: var(--brand-primary);">
+                            <span class="text-white">Start Learning Free</span>
+                        </button>
+                        <button onclick="openAuthScreen('login')" class="btn-3d px-8 py-4 text-lg bg-white w-full sm:w-auto" style="--shadow-color: #cbd5e1;">
+                            I already have an account
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Calligraphic Art Showcase -->
+                <div class="flex-1 flex justify-center">
+                    <div class="w-72 h-72 md:w-96 md:h-96 relative logo-bounce">
+                        <div class="absolute inset-0 bg-indigo-200/40 rounded-full blur-3xl"></div>
+                        <svg class="w-full h-full relative z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="45" fill="#ffffff" stroke="#fbbf24" stroke-width="4" class="shadow-2xl"/>
+                            <path d="M38 30 H68 M38 48 H60 M38 30 V72" stroke="#6366f1" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M32 72 H44" stroke="#6366f1" stroke-width="6" stroke-linecap="round"/>
+                            <circle cx="50" cy="50" r="38" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="6 6"/>
+                        </svg>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Footer Details -->
+            <footer class="bg-white border-t border-slate-200 py-8 text-center text-sm text-slate-400 font-bold">
+                © 2026 FaubenLearn Luxury Platforms. All rights reserved. Safe, clean, and interactive educational systems.
+            </footer>
+        </section>
+
+        <!-- SCREEN 2: AUTH MODAL / PORTAL -->
+        <section id="screen-auth" class="screen w-full min-h-screen bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-6 z-50 absolute inset-0 hidden">
+            <div class="bg-white border-2 border-slate-200 max-w-md w-full rounded-3xl p-8 relative shadow-2xl animate-fade-in space-y-6">
+                <!-- Close Auth Button -->
+                <button onclick="closeAuthScreen()" class="absolute top-4 right-4 text-2xl text-slate-400 hover:text-slate-600">✕</button>
+
+                <div class="text-center space-y-2">
+                    <span class="text-4xl">🔑</span>
+                    <h2 id="auth-title" class="text-2xl font-black text-slate-800">Sign Up for FaubenLearn</h2>
+                    <p class="text-sm text-slate-500 font-bold">Your elite educational data remains securely encrypted in local vaulting.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-xs font-black uppercase text-slate-500 tracking-wider">Username</label>
+                        <input id="auth-username" type="text" placeholder="ScholarName" class="w-full border-2 border-slate-200 p-3 rounded-xl focus:outline-none focus:border-indigo-500 font-bold mt-1 text-slate-700">
+                    </div>
+                    <div>
+                        <label class="text-xs font-black uppercase text-slate-500 tracking-wider">Password</label>
+                        <input id="auth-password" type="password" placeholder="••••••••" class="w-full border-2 border-slate-200 p-3 rounded-xl focus:outline-none focus:border-indigo-500 font-bold mt-1 text-slate-700">
+                    </div>
+                </div>
+
+                <button onclick="handleAuthSubmit()" id="auth-submit-btn" class="btn-3d w-full py-4 text-white font-black rounded-xl text-lg uppercase tracking-wide" style="--bg-color: var(--brand-primary); --shadow-color: var(--brand-primary-border); --border-color: var(--brand-primary);">
+                    Create Free Profile
+                </button>
+
+                <p class="text-center text-xs text-slate-400 font-bold">
+                    <span id="auth-toggle-prompt">Already have an account?</span> 
+                    <button onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-indigo-600 hover:underline">Log In</button>
+                </p>
+            </div>
+        </section>
+
+        <!-- SUBSCRIPTION MODAL POPUP -->
+        <div id="modal-subscription" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-6 z-50 transition-all duration-300 hidden">
+            <div class="bg-white border-4 border-amber-400 max-w-lg w-full rounded-3xl p-8 relative shadow-2xl animate-fade-in premium-glow space-y-6 text-center">
+                
+                <!-- Close Subscription (X) -->
+                <button id="close-sub-btn" onclick="closeSubscriptionModal()" class="absolute top-4 right-4 text-2xl text-slate-400 hover:text-slate-600 font-black">✕</button>
+
+                <div class="space-y-2">
+                    <div class="w-16 h-16 mx-auto bg-amber-50 rounded-2xl flex items-center justify-center text-4xl border border-amber-300">👑</div>
+                    <h2 class="text-3xl font-black text-slate-800">Fauben Elite Membership</h2>
+                    <p class="text-sm text-amber-600 font-black uppercase tracking-widest">Premium Luxury Access</p>
+                </div>
+
+                <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 text-left space-y-3">
+                    <div class="flex items-center gap-3 font-bold text-slate-700">
+                        <span class="text-amber-500 text-lg">✦</span> <span>Unlimited Hearts & Continuous Study</span>
+                    </div>
+                    <div class="flex items-center gap-3 font-bold text-slate-700">
+                        <span class="text-amber-500 text-lg">✦</span> <span>Endless Custom Topic AI Sandbox Queries</span>
+                    </div>
+                    <div class="flex items-center gap-3 font-bold text-slate-700">
+                        <span class="text-amber-500 text-lg">✦</span> <span>Exclusive Golden Calligraphy Dashboard Themes</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center bg-amber-50 border-2 border-amber-200 rounded-2xl p-4">
+                    <div class="text-left">
+                        <div class="font-extrabold text-slate-800">Annual Plan</div>
+                        <div class="text-xs font-bold text-slate-400">Cancel anytime</div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-black text-slate-900">$9.99</span>
+                        <span class="text-sm font-bold text-slate-400">/mo</span>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <!-- Standard Paypal Button -->
+                    <button onclick="triggerPaypalCheckout()" class="w-full bg-[#ffc439] hover:bg-[#f2ba36] transition-all rounded-xl py-3 px-4 flex items-center justify-center gap-2 font-black text-slate-800 shadow-md">
+                        <span class="font-black italic text-sky-800 text-lg">Pay</span><span class="font-black italic text-indigo-800 text-lg">Pal</span>
+                        <span class="text-sm font-extrabold uppercase ml-2">Checkout Securely</span>
+                    </button>
+                    <p class="text-xs text-slate-400 font-bold">Secure payment portal via encrypted 128-bit luxury tokenization</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAYPAL SECURE CHECKOUT WINDOW MODAL -->
+        <div id="modal-paypal-checkout" class="fixed inset-0 bg-black/70 flex items-center justify-center p-6 z-[60] transition-all duration-300 hidden">
+            <div class="bg-slate-900 max-w-md w-full rounded-3xl p-8 relative shadow-2xl animate-fade-in text-white border border-slate-700 space-y-6">
+                <!-- Close Paypal -->
+                <button onclick="closePaypalModal()" class="absolute top-4 right-4 text-xl text-slate-400 hover:text-white">✕</button>
+
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="font-black italic text-blue-400 text-2xl">Pay</span><span class="font-black italic text-blue-300 text-2xl">Pal</span>
+                    </div>
+                    <span class="text-xs font-bold text-emerald-400 uppercase bg-emerald-500/10 px-3 py-1 rounded-full">Secure Sandbox</span>
+                </div>
+
+                <!-- Paypal State 1: Details and Card Information -->
+                <div id="paypal-state-form" class="space-y-4">
+                    <h3 class="text-lg font-black">Authorize Order — $9.99 USD</h3>
+                    <p class="text-xs text-slate-400">Merchant: FaubenLearn Adaptive Labs Inc.</p>
+
+                    <div class="space-y-3 pt-2">
+                        <div>
+                            <label class="text-xs font-bold text-slate-400 uppercase block mb-1">Email Address</label>
+                            <input id="pp-email" type="email" placeholder="student@academic.com" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm font-bold focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-400 uppercase block mb-1">Card Number</label>
+                            <input id="pp-card" type="text" placeholder="4111 2222 3333 4444" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm font-bold focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-xs font-bold text-slate-400 uppercase block mb-1">Expiration</label>
+                                <input type="text" placeholder="12 / 29" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm font-bold focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-400 uppercase block mb-1">CVC</label>
+                                <input type="text" placeholder="000" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-sm font-bold focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="submitPaypalOrder()" class="w-full bg-blue-500 hover:bg-blue-600 transition-all text-white font-extrabold py-3.5 rounded-xl uppercase tracking-wider text-sm mt-2">
+                        Complete Authorization
+                    </button>
+                </div>
+
+                <!-- Paypal State 2: Processing Payment Loader -->
+                <div id="paypal-state-processing" class="hidden py-8 text-center space-y-4">
+                    <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                    <h3 class="text-lg font-black">Encrypting Tokenized Credentials...</h3>
+                    <p class="text-sm text-slate-400">Verifying authorization parameters with PayPal Secure Vaults.</p>
+                </div>
+
+                <!-- Paypal State 3: Payment Authorized Successfully -->
+                <div id="paypal-state-success" class="hidden py-8 text-center space-y-4">
+                    <span class="text-5xl">👑</span>
+                    <h3 class="text-2xl font-black text-amber-400">Elite Unlocked!</h3>
+                    <p class="text-sm text-slate-300 font-bold">Fauben Elite privileges successfully enabled on your luxury scholar profile.</p>
+                    <button onclick="finalizePremiumAcquisition()" class="w-full bg-emerald-500 hover:bg-emerald-600 transition-all text-white font-black py-3 rounded-xl uppercase text-xs tracking-wider">
+                        Continue to Workspace
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIDEBAR NAVIGATION (Desktop) -->
+        <aside class="w-64 border-r-2 border-[#e2e8f0] p-6 hidden md:flex flex-col justify-between bg-white shrink-0">
+            <div>
+                <!-- Logo with Fancy F design -->
+                <div class="flex items-center gap-3 mb-8 cursor-pointer" onclick="switchScreen('dashboard')">
+                    <div class="w-10 h-10">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="5" width="90" height="90" rx="28" fill="#6366f1" stroke="#4f46e5" stroke-width="4"/>
+                            <path d="M35 30 H70 M35 48 H60 M35 30 V75" stroke="#f59e0b" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="35" cy="30" r="4" fill="#ffffff"/>
+                            <circle cx="70" cy="30" r="4" fill="#ffffff"/>
+                        </svg>
+                    </div>
+                    <span class="text-2xl font-black text-[#1e293b] tracking-wider">FaubenLearn</span>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="space-y-3">
+                    <button onclick="switchScreen('dashboard')" id="nav-dashboard" class="nav-item w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-left font-extrabold text-lg transition btn-3d nav-item-active" style="--shadow-color: #a5b4fc;">
+                        <span class="text-2xl">🏡</span> LEARN
+                    </button>
+                    <button onclick="switchScreen('sandbox')" id="nav-sandbox" class="nav-item w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-left font-extrabold text-lg transition hover:bg-[#f1f5f9] text-[#64748b]">
+                        <span class="text-2xl">🧪</span> AI SANDBOX
+                    </button>
+                    <button onclick="switchScreen('leaderboard')" id="nav-leaderboard" class="nav-item w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-left font-extrabold text-lg transition hover:bg-[#f1f5f9] text-[#64748b]">
+                        <span class="text-2xl">🏆</span> LEAGUE
+                    </button>
+                    <button onclick="switchScreen('profile')" id="nav-profile" class="nav-item w-full flex items-center gap-4 px-4 py-3 rounded-2xl text-left font-extrabold text-lg transition hover:bg-[#f1f5f9] text-[#64748b]">
+                        <span class="text-2xl">👤</span> PROFILE
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Sign Out Section / Mascot Status -->
+            <div class="space-y-4">
+                <button onclick="handleSignOut()" class="w-full text-slate-500 hover:text-red-500 font-extrabold text-sm uppercase text-left pl-4 transition">Sign Out</button>
+                <div class="p-4 bg-[#f8fafc] rounded-2xl border-2 border-[#e2e8f0]">
+                    <div class="text-xs text-[#94a3b8] font-bold uppercase tracking-wider mb-1">Status</div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">✨</span>
+                        <span id="mascot-status" class="text-sm font-extrabold text-[#6366f1]">System calibrated</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN LAYOUT AREA -->
+        <div class="flex-1 flex flex-col overflow-y-auto">
+
+            <!-- MOBILE TOP NAVIGATION -->
+            <header class="md:hidden flex items-center justify-between border-b-2 border-[#e2e8f0] px-6 py-4 bg-white sticky top-0 z-40">
+                <div class="flex items-center gap-2" onclick="switchScreen('dashboard')">
+                    <div class="w-8 h-8">
+                        <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="5" y="5" width="90" height="90" rx="28" fill="#6366f1" stroke="#4f46e5" stroke-width="4"/>
+                            <path d="M35 30 H70 M35 48 H60 M35 30 V75" stroke="#f59e0b" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-black text-[#1e293b]">FaubenLearn</span>
+                </div>
+                <div class="flex items-center gap-3 font-bold text-sm">
+                    <span class="text-[#f59e0b]">🔥 <span class="mobile-streak">3</span></span>
+                    <span class="text-[#fbbf24]">💎 <span class="mobile-gems">500</span></span>
+                </div>
+            </header>
+
+            <!-- SCREENS -->
+            <div class="flex-1 max-w-4xl w-full mx-auto p-4 md:p-8">
+
+                <!-- SCREEN: DASHBOARD -->
+                <section id="screen-dashboard" class="screen hidden space-y-8">
+                    <!-- Dashboard Header Banner -->
+                    <div class="bg-gradient-to-r from-[#6366f1] to-[#4f46e5] text-white p-6 md:p-8 rounded-3xl relative overflow-hidden shadow-md flex flex-col md:flex-row items-center gap-6">
+                        <div class="space-y-3 max-w-lg z-10 text-center md:text-left">
+                            <h2 class="text-3xl font-extrabold">Bienvenue à FaubenLearn!</h2>
+                            <p class="text-lg opacity-90">Experience immersive French practice curated by highly sophisticated adaptive technologies. Raise your fluency, vocabulary, and grammar to the elite standard.</p>
+                            <button onclick="startLesson('basics_1')" class="btn-3d px-6 py-3 bg-white text-[#6366f1] font-black rounded-xl text-lg uppercase tracking-wider shadow" style="--shadow-color: #cbd5e1;">
+                                Start Basic 1 Lesson
+                            </button>
+                        </div>
+                        <!-- High Quality Calligraphic SVG Emblem -->
+                        <div class="w-32 h-32 md:w-44 md:h-44 flex-shrink-0 logo-bounce">
+                            <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="50" r="45" fill="#f8fafc" stroke="#fbbf24" stroke-width="4"/>
+                                <path d="M38 32 H68 M38 50 H60 M38 32 V72" stroke="#6366f1" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M32 72 H44" stroke="#6366f1" stroke-width="6" stroke-linecap="round"/>
+                                <circle cx="50" cy="50" r="40" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 4"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Interactive French Progress Path -->
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-black text-[#1e293b]">Your French Path</h3>
+                        <div class="flex flex-col items-center gap-6 py-4 relative">
+                            <!-- Vertical connector line -->
+                            <div class="absolute w-2 bg-[#e2e8f0] h-full top-0 left-1/2 transform -translate-x-1/2 -z-10 rounded"></div>
+
+                            <!-- PATH MODULES (Interactive Level nodes) -->
+                            <!-- Node 1 -->
+                            <div class="flex flex-col items-center gap-2 relative">
+                                <button onclick="startLesson('salutations')" class="btn-3d w-20 h-20 rounded-full hover:scale-105 border-4 border-white text-white font-black text-2xl flex items-center justify-center shadow-lg relative" style="--bg-color: var(--brand-primary); --border-color: white; --shadow-color: var(--brand-primary-border);">
+                                    💬
+                                    <div class="absolute -top-1 -right-1 bg-[#fbbf24] text-[#1e293b] text-xs font-black px-1.5 py-0.5 rounded-full border-2 border-white">✓</div>
+                                </button>
+                                <span class="font-extrabold text-sm text-[#475569]">Salutations</span>
+                            </div>
+
+                            <!-- Node 2 -->
+                            <div class="flex flex-col items-center gap-2 relative">
+                                <button onclick="startLesson('au_cafe')" class="btn-3d w-20 h-20 rounded-full hover:scale-105 border-4 border-white text-white font-black text-2xl flex items-center justify-center shadow-lg" style="--bg-color: var(--brand-secondary); --border-color: white; --shadow-color: var(--brand-secondary-border);">
+                                    ☕
+                                </button>
+                                <span class="font-extrabold text-sm text-[#475569]">Au Café</span>
+                            </div>
+
+                            <!-- Node 3 -->
+                            <div class="flex flex-col items-center gap-2 relative">
+                                <button onclick="startLesson('voyages')" class="btn-3d w-20 h-20 rounded-full hover:scale-105 border-4 border-white text-white font-black text-2xl flex items-center justify-center shadow-lg" style="--bg-color: var(--brand-red); --border-color: white; --shadow-color: var(--brand-red-border);">
+                                    ✈️
+                                </button>
+                                <span class="font-extrabold text-sm text-[#475569]">Voyages</span>
+                            </div>
+
+                            <!-- Node 4 -->
+                            <div class="flex flex-col items-center gap-2 relative">
+                                <button onclick="startLesson('famille')" class="btn-3d w-20 h-20 rounded-full hover:scale-105 border-4 border-white text-white font-black text-2xl flex items-center justify-center shadow-lg" style="--bg-color: #8b5cf6; --border-color: white; --shadow-color: #7c3aed;">
+                                    🏡
+                                </button>
+                                <span class="font-extrabold text-sm text-[#475569]">Famille</span>
+                            </div>
+
+                            <!-- Node 5 -->
+                            <div class="flex flex-col items-center gap-2 relative">
+                                <button onclick="startLesson('shopping')" class="btn-3d w-20 h-20 rounded-full hover:scale-105 border-4 border-white text-white font-black text-2xl flex items-center justify-center shadow-lg" style="--bg-color: #ec4899; --border-color: white; --shadow-color: #db2777;">
+                                    🛒
+                                </button>
+                                <span class="font-extrabold text-sm text-[#475569]">Shopping</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SCREEN: AI SANDBOX -->
+                <section id="screen-sandbox" class="screen hidden space-y-6">
+                    <div class="border-2 border-[#e2e8f0] rounded-3xl p-6 bg-white space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="text-4xl">🧪</span>
+                            <div>
+                                <h3 class="text-2xl font-black text-[#1e293b]">AI Custom Topic Sandbox</h3>
+                                <p class="text-sm text-[#64748b] font-semibold">Prompt our adaptive curriculum engine to build a customized French lesson on any topic you want!</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-sm font-extrabold text-[#475569] block">What topic would you like to practice today?</label>
+                            <input id="sandbox-topic-input" type="text" placeholder="e.g. Ordering a red wine at a Parisian Bistro, or booking a train ticket to Nice..." class="w-full border-2 border-[#e2e8f0] rounded-2xl p-4 text-lg focus:outline-none focus:border-[#6366f1] font-semibold">
+                        </div>
+
+                        <button onclick="startSandboxLesson()" class="btn-3d w-full py-4 text-white font-black rounded-2xl text-lg uppercase tracking-wide" style="--bg-color: var(--brand-primary); --shadow-color: var(--brand-primary-border); --border-color: var(--brand-primary);">
+                            Generate Dynamic Lesson
+                        </button>
+                    </div>
+                </section>
+
+                <!-- SCREEN: LEADERBOARD -->
+                <section id="screen-leaderboard" class="screen hidden space-y-6">
+                    <div class="border-2 border-[#e2e8f0] rounded-3xl p-6 bg-white">
+                        <h3 class="text-2xl font-black text-[#1e293b] flex items-center gap-3">🏆 Ruby League Leaderboard</h3>
+                        <p class="text-sm text-[#64748b] font-bold mb-6">Competitors reset every Sunday night. Keep completing lessons to hold the Top Spot!</p>
+
+                        <div class="space-y-3" id="leaderboard-list">
+                            <!-- Leaders populated dynamically -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SCREEN: PROFILE -->
+                <section id="screen-profile" class="screen hidden space-y-6">
+                    <div class="border-2 border-[#e2e8f0] rounded-3xl p-6 bg-white flex flex-col md:flex-row items-center gap-6">
+                        <div class="w-24 h-24 bg-[#e0e7ff] rounded-full flex items-center justify-center text-4xl border-2 border-[#a5b4fc]">🇫🇷</div>
+                        <div class="space-y-2 text-center md:text-left flex-1">
+                            <h3 id="profile-name" class="text-2xl font-black text-[#1e293b]">Fauben Scholar</h3>
+                            <p class="text-sm text-[#64748b] font-extrabold">Joined: July 2026</p>
+                            <div class="flex flex-wrap justify-center md:justify-start gap-3 mt-2">
+                                <span class="bg-[#f59e0b]/10 text-[#d97706] px-4 py-1.5 rounded-xl font-bold text-sm">🔥 <span id="profile-streak">3</span> Day Streak</span>
+                                <span class="bg-[#fbbf24]/10 text-[#b45309] px-4 py-1.5 rounded-xl font-bold text-sm">💎 <span id="profile-gems">500</span> Gems</span>
+                                <span class="bg-[#6366f1]/10 text-[#4f46e5] px-4 py-1.5 rounded-xl font-bold text-sm">✨ <span id="profile-xp">120</span> XP</span>
+                            </div>
+                            <div id="premium-status-badge" class="mt-4 hidden">
+                                <span class="bg-amber-100 text-amber-800 border-2 border-amber-300 font-extrabold text-sm uppercase tracking-wider px-4 py-2 rounded-xl inline-block shadow">👑 Fauben Elite Member</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SCREEN: LESSON PLAYGROUND -->
+                <section id="screen-lesson" class="screen hidden space-y-6">
+                    <!-- Progress Head Area -->
+                    <div class="flex items-center justify-between gap-6">
+                        <button onclick="exitActiveLesson()" class="text-2xl font-black text-[#cbd5e1] hover:text-[#1e293b] transition">✕</button>
+                        
+                        <div class="flex-1 bg-[#e2e8f0] h-5 rounded-full overflow-hidden relative">
+                            <div id="lesson-progress-bar" class="bg-[#6366f1] h-full w-0 rounded-full transition-all duration-300 progress-bar-glow"></div>
+                        </div>
+
+                        <div class="flex items-center gap-2 font-black text-xl">
+                            <span class="text-[#ef4444]">❤️</span>
+                            <span id="lesson-hearts" class="text-[#ef4444]">5</span>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Lesson Layout Window -->
+                    <div class="border-2 border-[#e2e8f0] rounded-3xl p-6 md:p-8 bg-white min-h-[350px] flex flex-col justify-between relative shadow-sm">
+                        <!-- Loading Indicator inside Lesson Frame -->
+                        <div id="lesson-loading-view" class="absolute inset-0 bg-white/90 backdrop-blur-sm z-30 flex flex-col items-center justify-center gap-4 rounded-3xl transition-opacity duration-300">
+                            <!-- Custom Pulsing Feather Pen animation loader -->
+                            <div class="animate-bounce text-5xl">✍️</div>
+                            <h3 class="text-xl font-extrabold text-[#1e293b]">Crafting your personalized exercises...</h3>
+                            <p class="text-sm text-[#64748b] font-semibold text-center max-w-xs">Analyzing target parameters to build dynamic, real-time grammar paths.</p>
+                        </div>
+
+                        <div class="space-y-6 flex-1 flex flex-col justify-center">
+                            <!-- Avatar Talk Bubble Container -->
+                            <div class="flex gap-4 items-start">
+                                <div id="mascot-animation-box" class="w-16 h-16 shrink-0 transition-transform duration-300">
+                                    <svg class="w-full h-full" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- Sophisticated Calligraphic Emblem Badge -->
+                                        <rect x="5" y="5" width="90" height="90" rx="28" fill="#6366f1" stroke="#e2e8f0" stroke-width="2"/>
+                                        <path d="M35 30 H70 M35 48 H60 M35 30 V75" stroke="#fbbf24" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div class="talk-bubble p-4 rounded-2xl relative flex-1">
+                                    <!-- Speak Text Trigger Bubble icon -->
+                                    <button onclick="speakFrenchCurrentPrompt()" class="absolute right-4 top-4 text-xl hover:scale-125 transition">🔊</button>
+                                    <h4 class="text-sm text-[#94a3b8] font-bold uppercase tracking-wider mb-1" id="lesson-exercise-instructions">Instruction</h4>
+                                    <p class="text-lg font-black text-[#1e293b] pr-8" id="lesson-exercise-prompt">French Prompt</p>
+                                </div>
+                            </div>
+
+                            <!-- INTERACTION CONTAINER (Options, input spaces, or match tiles go here) -->
+                            <div id="exercise-interaction-area" class="py-4">
+                                <!-- Populated dynamically by active question type -->
+                            </div>
+                        </div>
+
+                        <!-- Footer controls -->
+                        <div id="lesson-check-banner" class="border-t-2 border-[#e2e8f0] pt-6 flex flex-col md:flex-row items-center justify-between gap-4 mt-6">
+                            <div id="check-feedback-text" class="font-extrabold text-lg hidden"></div>
+                            <button id="lesson-action-btn" onclick="checkOrNext()" class="btn-3d w-full md:w-auto px-12 py-4 rounded-2xl text-white font-black text-lg uppercase tracking-wider shadow-md">
+                                Check Answer
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SCREEN: SUMMARY CONGRATULATIONS -->
+                <section id="screen-summary" class="screen hidden space-y-6 text-center">
+                    <div class="border-2 border-[#e2e8f0] rounded-3xl p-8 bg-white space-y-6">
+                        <div class="text-7xl animate-bounce">🏆</div>
+                        <h2 class="text-3xl font-black text-[#6366f1]">Félicitations!</h2>
+                        <p class="text-lg text-[#64748b] font-extrabold max-w-md mx-auto">You finished the lesson! Your French skills are getting sharper every single day.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto pt-4">
+                            <div class="p-4 bg-[#f59e0b]/10 border-2 border-[#f59e0b]/30 rounded-2xl">
+                                <div class="text-[#d97706] text-3xl font-extrabold">+15</div>
+                                <div class="text-xs font-bold text-[#64748b] uppercase">XP Earned</div>
+                            </div>
+                            <div class="p-4 bg-[#6366f1]/10 border-2 border-[#6366f1]/30 rounded-2xl">
+                                <div class="text-[#4f46e5] text-3xl font-extrabold">+1</div>
+                                <div class="text-xs font-bold text-[#64748b] uppercase">Day Streak</div>
+                            </div>
+                        </div>
+
+                        <button onclick="switchScreen('dashboard')" class="btn-3d px-12 py-4 text-white font-black rounded-2xl text-lg uppercase tracking-wider" style="--bg-color: var(--brand-primary); --shadow-color: var(--brand-primary-border); --border-color: var(--brand-primary);">
+                            Return to Dashboard
+                        </button>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- BOTTOM MOBILE NAVIGATION BAR -->
+            <footer class="md:hidden border-t-2 border-[#e2e8f0] bg-white flex justify-around py-3 sticky bottom-0 z-40">
+                <button onclick="switchScreen('dashboard')" class="flex flex-col items-center gap-0.5 text-xs font-black text-[#6366f1]">
+                    <span class="text-xl">🏡</span> LEARN
+                </button>
+                <button onclick="switchScreen('sandbox')" class="flex flex-col items-center gap-0.5 text-xs font-black text-[#64748b]">
+                    <span class="text-xl">🧪</span> AI SANDBOX
+                </button>
+                <button onclick="switchScreen('leaderboard')" class="flex flex-col items-center gap-0.5 text-xs font-black text-[#64748b]">
+                    <span class="text-xl">🏆</span> LEAGUE
+                </button>
+                <button onclick="switchScreen('profile')" class="flex flex-col items-center gap-0.5 text-xs font-black text-[#64748b]">
+                    <span class="text-xl">👤</span> PROFILE
+                </button>
+            </footer>
+
+        </div>
+
+        <!-- RIGHT SIDE PANEL STATS (Desktop) -->
+        <aside class="w-80 border-l-2 border-[#e2e8f0] p-6 hidden lg:flex flex-col gap-6 bg-white shrink-0">
+            <!-- Global User Stats Block -->
+            <div class="flex items-center justify-between p-4 bg-[#f8fafc] rounded-2xl border-2 border-[#e2e8f0] font-extrabold text-lg">
+                <div class="flex items-center gap-2">
+                    <span class="text-[#f59e0b]">🔥</span> <span id="desktop-streak">3</span> Days
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-[#fbbf24]">💎</span> <span id="desktop-gems">500</span> Gems
+                </div>
+            </div>
+
+            <!-- Ruby League Quick Glance -->
+            <div class="border-2 border-[#e2e8f0] rounded-2xl p-4 space-y-3">
+                <h4 class="text-sm font-black text-[#1e293b] uppercase tracking-wider">Active League</h4>
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">🏆</span>
+                    <div>
+                        <div class="font-extrabold text-[#1e293b]">Ruby League</div>
+                        <div class="text-xs font-bold text-[#64748b]">Your Rank: #2</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Quests -->
+            <div class="border-2 border-[#e2e8f0] rounded-2xl p-4 space-y-4">
+                <h4 class="text-sm font-black text-[#1e293b] uppercase tracking-wider">Daily Quests</h4>
+                
+                <div class="space-y-2">
+                    <div class="flex justify-between text-xs font-bold text-[#475569]">
+                        <span>Earn 50 XP today</span>
+                        <span>35/50 XP</span>
+                    </div>
+                    <div class="w-full bg-[#e2e8f0] h-3 rounded-full overflow-hidden">
+                        <div class="bg-[#fbbf24] h-full rounded-full" style="width: 70%"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <div class="flex justify-between text-xs font-bold text-[#475569]">
+                        <span>Finish 1 custom sandbox lesson</span>
+                        <span>0/1 Done</span>
+                    </div>
+                    <div class="w-full bg-[#e2e8f0] h-3 rounded-full overflow-hidden">
+                        <div class="bg-[#6366f1] h-full rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- SCRIPT FOR WEB AUDIO & DYNAMIC LESSON LOGIC -->
+    <script>
+        // CRITICAL CONFIGURATION
+        const GEMINI_API_KEY = "AQ.Ab8RN6LbTAljqNw80b-KscnHfdAnCzsGnTMOwKVC1-WPY1XNkw";
+
+        // GLOBAL USER STATE
+        let userState = {
+            isLoggedIn: false,
+            hasPremium: false,
+            username: "",
+            streak: 3,
+            gems: 500,
+            xp: 120,
+            activeScreen: 'landing',
+            completedUnits: []
+        };
+
+        // CURRENT LESSON STATE
+        let activeLesson = {
+            currentLevel: null,
+            questions: [],
+            currentQuestionIndex: 0,
+            hearts: 5,
+            answersSelected: [], // For word builders or match states
+            checked: false,
+            isCorrect: false
+        };
+
+        // STATIC OFFLINE LESSON BACKUPS (In case core AI API limits/failures)
+        const offlineLessons = {
+            salutations: [
+                {
+                    type: "multiple_choice",
+                    instruction: "Translate this sentence",
+                    prompt: "Bonjour, comment ça va ?",
+                    options: ["Goodbye, see you tomorrow", "Hello, how is it going?", "What is your name?"],
+                    correct: "Hello, how is it going?"
+                },
+                {
+                    type: "word_bank",
+                    instruction: "Build the correct French translation",
+                    prompt: "Hello, I am eating a croissant.",
+                    options: ["Bonjour", "je", "mange", "un", "croissant", "la", "pomme", "pomme"],
+                    correct: ["Bonjour", "je", "mange", "un", "croissant"]
+                },
+                {
+                    type: "matching",
+                    instruction: "Match the correct translation pairs",
+                    prompt: "Salutations pairs",
+                    pairs: [
+                        { fr: "S'il vous plaît", en: "Please" },
+                        { fr: "Merci", en: "Thank you" },
+                        { fr: "Au revoir", en: "Goodbye" },
+                        { fr: "Oui", en: "Yes" }
+                    ]
+                }
+            ],
+            au_cafe: [
+                {
+                    type: "multiple_choice",
+                    instruction: "Translate 'Une tasse de café s'il vous plaît.'",
+                    prompt: "Une tasse de café s'il vous plaît.",
+                    options: ["A cup of tea please.", "A cup of coffee please.", "A glass of milk please."],
+                    correct: "A cup of coffee please."
+                },
+                {
+                    type: "word_bank",
+                    instruction: "Assemble the correct order",
+                    prompt: "The coffee is very hot",
+                    options: ["Le", "café", "est", "très", "chaud", "eau", "glace"],
+                    correct: ["Le", "café", "est", "très", "chaud"]
+                }
+            ]
+        };
+
+        // PROCEDURAL AUDIO SYNTHESIZER
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'success') {
+                const now = audioCtx.currentTime;
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+                osc.start(now);
+                osc.stop(now + 0.6);
+            } else if (type === 'fail') {
+                const now = audioCtx.currentTime;
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220.00, now); // A3
+                osc.frequency.setValueAtTime(180.00, now + 0.15); // Descend
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.45);
+            } else if (type === 'click') {
+                const now = audioCtx.currentTime;
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(600, now);
+                osc.frequency.exponentialRampToValueAtTime(20, now + 0.08);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            }
+        }
+
+        // SPEECH SYNTHESIS UTILITY
+        function speakFrenchCurrentPrompt() {
+            if ('speechSynthesis' in window) {
+                let text = document.getElementById('lesson-exercise-prompt').innerText;
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'fr-FR';
+                const voices = window.speechSynthesis.getVoices();
+                const frVoice = voices.find(v => v.lang.startsWith('fr'));
+                if (frVoice) utterance.voice = frVoice;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // NOTIFICATION UTILITY
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-text').innerText = message;
+            toast.style.opacity = '1';
+            toast.style.pointerEvents = 'auto';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.pointerEvents = 'none';
+            }, 4000);
+        }
+
+        // EXPONENTIAL BACKOFF RE-USABLE ADAPTIVE SERVICE REQUEST
+        async function fetchAdaptiveLessonData(promptText, systemPrompt) {
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${GEMINI_API_KEY}`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: promptText }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: {
+                    responseMimeType: "application/json"
+                }
+            };
+
+            let delay = 1000;
+            for (let attempt = 1; attempt <= 5; attempt++) {
+                try {
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) {
+                        throw new Error(`HTTP status error: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    if (attempt === 5) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        // GENERATING DYNAMIC LESSON QUESTIONS VIA THE ADAPTIVE AI ENGINE
+        async function loadAILesson(topicName) {
+            const sysPrompt = "You are a standard high-end curriculum designer. Generate a structured lesson array matching exactly the requested JSON output format. Ensure the grammar content is engaging, authentic, and clear.";
+            const userPrompt = `Generate a 5-question French lesson dataset about "${topicName}".
+            The output must be a JSON array containing exactly 4 objects. Each object represents a different question layout.
+            Supported question types:
+            1. {"type": "multiple_choice", "instruction": "Translate this sentence", "prompt": "French Sentence", "options": ["Option A", "Option B", "Option C"], "correct": "Option A"}
+            2. {"type": "word_bank", "instruction": "Translate this sentence into French", "prompt": "English Sentence", "options": ["French_Word1", "French_Word2", "French_Word3", "French_Word4"], "correct": ["French_Word1", "French_Word2"]}
+            3. {"type": "matching", "instruction": "Match the correct translation pairs", "prompt": "Match vocabulary pairs", "pairs": [{"fr": "Bonjour", "en": "Hello"}, {"fr": "Merci", "en": "Thank you"}]}
+            4. {"type": "multiple_choice", "instruction": "Listening: translate what you hear", "prompt": "Salut, mon ami!", "options": ["Hi, my friend!", "See you tomorrow!", "What is your food?"], "correct": "Hi, my friend!"}
+
+            Return ONLY the raw clean JSON array of exactly 4 exercises. No extra explanation. No markdown codeblocks.`;
+
+            try {
+                const rawResult = await fetchAdaptiveLessonData(userPrompt, sysPrompt);
+                const generatedText = rawResult.candidates[0].content.parts[0].text;
+                const cleanJson = generatedText.replace(/```json/g, "").replace(/```/g, "").trim();
+                const lessonArray = JSON.parse(cleanJson);
+                
+                if (Array.isArray(lessonArray) && lessonArray.length > 0) {
+                    return lessonArray;
+                } else {
+                    throw new Error("Invalid structure returned");
+                }
+            } catch (err) {
+                const backupSet = offlineLessons[topicName] || offlineLessons.salutations;
+                return JSON.parse(JSON.stringify(backupSet));
+            }
+        }
+
+        // SIGN IN / UP & CREDENTIAL SECURITY PROTOCOLS
+        let authMode = 'signup'; // signup or login
+
+        function openAuthScreen(mode) {
+            playSound('click');
+            authMode = mode;
+            const screen = document.getElementById('screen-auth');
+            const title = document.getElementById('auth-title');
+            const submitBtn = document.getElementById('auth-submit-btn');
+            const togglePrompt = document.getElementById('auth-toggle-prompt');
+            const toggleBtn = document.getElementById('auth-toggle-btn');
+
+            if (authMode === 'signup') {
+                title.innerText = "Sign Up for FaubenLearn";
+                submitBtn.innerText = "Create Free Profile";
+                togglePrompt.innerText = "Already have an account? ";
+                toggleBtn.innerText = "Log In";
+            } else {
+                title.innerText = "Log In to FaubenLearn";
+                submitBtn.innerText = "Enter Scholar Chamber";
+                togglePrompt.innerText = "New to FaubenLearn? ";
+                toggleBtn.innerText = "Create Profile";
+            }
+
+            screen.classList.remove('hidden');
+        }
+
+        function closeAuthScreen() {
+            playSound('click');
+            document.getElementById('screen-auth').classList.add('hidden');
+        }
+
+        function toggleAuthMode() {
+            playSound('click');
+            openAuthScreen(authMode === 'signup' ? 'login' : 'signup');
+        }
+
+        function handleAuthSubmit() {
+            playSound('click');
+            const usernameInput = document.getElementById('auth-username').value.trim();
+            const passwordInput = document.getElementById('auth-password').value.trim();
+
+            if (!usernameInput || !passwordInput) {
+                showToast("Please fill in all identity credentials!");
+                return;
+            }
+
+            // Retrieve local safe vault
+            let vault = JSON.parse(localStorage.getItem('fauben_credentials') || '{}');
+
+            if (authMode === 'signup') {
+                if (vault[usernameInput]) {
+                    showToast("Username already registered in Fauben vaults!");
+                    return;
+                }
+                // Save user credentials
+                vault[usernameInput] = passwordInput;
+                localStorage.setItem('fauben_credentials', JSON.stringify(vault));
+                
+                // Initialize clean user state
+                userState.isLoggedIn = true;
+                userState.username = usernameInput;
+                userState.streak = 1;
+                userState.gems = 100;
+                userState.xp = 0;
+                userState.hasPremium = false;
+                userState.completedUnits = [];
+                
+                saveLocalStorageState();
+                updateAllUIStats();
+                loadLeaderboards();
+                showToast("Profile created successfully!");
+                document.getElementById('screen-auth').classList.add('hidden');
+                
+                // Transmit transition screen
+                switchScreen('dashboard');
+                // Trigger Elite Premium Offer Popup on original registration
+                openSubscriptionModal(false);
+            } else {
+                // Login Flow
+                if (!vault[usernameInput] || vault[usernameInput] !== passwordInput) {
+                    showToast("Invalid credentials supplied!");
+                    return;
+                }
+                
+                // Restore existing state
+                userState.isLoggedIn = true;
+                userState.username = usernameInput;
+                loadLocalStorageState(); // load customized metrics for this username
+                
+                saveLocalStorageState();
+                updateAllUIStats();
+                loadLeaderboards();
+                showToast("Welcome back, Scholar!");
+                document.getElementById('screen-auth').classList.add('hidden');
+                switchScreen('dashboard');
+            }
+        }
+
+        function handleSignOut() {
+            playSound('click');
+            userState.isLoggedIn = false;
+            userState.username = "";
+            userState.streak = 3;
+            userState.gems = 500;
+            userState.xp = 120;
+            userState.hasPremium = false;
+            userState.completedUnits = [];
+            localStorage.removeItem('faubenlearn_active_username');
+            updateAllUIStats();
+            switchScreen('landing');
+            showToast("Securely signed out.");
+        }
+
+        // PREMIUM SUBSCRIPTION / PAYPAL WALL LOGIC
+        let isMandatoryPaywall = false;
+
+        function openSubscriptionModal(mandatory = false) {
+            isMandatoryPaywall = mandatory;
+            const modal = document.getElementById('modal-subscription');
+            const closeBtn = document.getElementById('close-sub-btn');
+
+            if (isMandatoryPaywall) {
+                closeBtn.classList.add('hidden'); // Force compliance: User cannot exit zero-hearts lockout
+            } else {
+                closeBtn.classList.remove('hidden');
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeSubscriptionModal() {
+            if (isMandatoryPaywall) return; // Locked out
+            playSound('click');
+            document.getElementById('modal-subscription').classList.add('hidden');
+        }
+
+        // PAYPAL INTERACTIVE CHECKOUT PORTAL UI
+        function triggerPaypalCheckout() {
+            playSound('click');
+            document.getElementById('modal-paypal-checkout').classList.remove('hidden');
+            document.getElementById('paypal-state-form').classList.remove('hidden');
+            document.getElementById('paypal-state-processing').classList.add('hidden');
+            document.getElementById('paypal-state-success').classList.add('hidden');
+        }
+
+        function closePaypalModal() {
+            playSound('click');
+            document.getElementById('modal-paypal-checkout').classList.add('hidden');
+        }
+
+        function submitPaypalOrder() {
+            const ppEmail = document.getElementById('pp-email').value.trim();
+            const ppCard = document.getElementById('pp-card').value.trim();
+
+            if (!ppEmail || !ppCard) {
+                showToast("Please provide PayPal credential accounts.");
+                return;
+            }
+
+            playSound('click');
+            document.getElementById('paypal-state-form').classList.add('hidden');
+            document.getElementById('paypal-state-processing').classList.remove('hidden');
+
+            // Simulate Secure Token Handshake (3 seconds)
+            setTimeout(() => {
+                document.getElementById('paypal-state-processing').classList.add('hidden');
+                document.getElementById('paypal-state-success').classList.remove('hidden');
+                playSound('success');
+            }, 2500);
+        }
+
+        function finalizePremiumAcquisition() {
+            // Unlock Elite access privileges
+            userState.hasPremium = true;
+            userState.gems += 500;
+            activeLesson.hearts = 9999; // Unlimited access
+            document.getElementById('lesson-hearts').innerText = "∞";
+
+            saveLocalStorageState();
+            updateAllUIStats();
+
+            // Hide checkout components safely
+            document.getElementById('modal-paypal-checkout').classList.add('hidden');
+            document.getElementById('modal-subscription').classList.add('hidden');
+            isMandatoryPaywall = false;
+
+            showToast("Congratulations! Elite subscription enabled.");
+            
+            // Re-eval dashboard values
+            if (userState.activeScreen === 'lesson' && activeLesson.questions.length > 0) {
+                renderActiveQuestion();
+            } else {
+                switchScreen('dashboard');
+            }
+        }
+
+        // APP NAVIGATION STATE CONTROLLER
+        function switchScreen(screenId) {
+            playSound('click');
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            
+            if (screenId === 'landing' && userState.isLoggedIn) {
+                screenId = 'dashboard'; // Forward login
+            }
+
+            const targetScreen = document.getElementById(`screen-${screenId}`);
+            if (targetScreen) {
+                targetScreen.classList.remove('hidden');
+            }
+
+            // Adjust navigation highlights on sidebar
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.classList.remove('nav-item-active');
+                btn.style.setProperty('--shadow-color', 'none');
+                btn.style.setProperty('--border-color', 'transparent');
+                btn.style.setProperty('--bg-color', 'transparent');
+                btn.style.setProperty('--text-color', '#64748b');
+            });
+            const activeNav = document.getElementById(`nav-${screenId}`);
+            if (activeNav) {
+                activeNav.classList.add('nav-item-active');
+            }
+            
+            userState.activeScreen = screenId;
+            saveLocalStorageState();
+            updateAllUIStats();
+        }
+
+        // RE-INITIALIZE STATS INTERFACE
+        function updateAllUIStats() {
+            document.getElementById('desktop-streak').innerText = userState.streak;
+            document.getElementById('desktop-gems').innerText = userState.gems;
+            document.querySelector('.mobile-streak').innerText = userState.streak;
+            document.querySelector('.mobile-gems').innerText = userState.gems;
+            
+            document.getElementById('profile-streak').innerText = userState.streak;
+            document.getElementById('profile-gems').innerText = userState.gems;
+            document.getElementById('profile-xp').innerText = userState.xp;
+            document.getElementById('profile-name').innerText = userState.username || "Fauben Scholar";
+
+            const premiumBadge = document.getElementById('premium-status-badge');
+            if (userState.hasPremium) {
+                premiumBadge.classList.remove('hidden');
+            } else {
+                premiumBadge.classList.add('hidden');
+            }
+        }
+
+        // START A UNIT LESSON
+        async function startLesson(levelId) {
+            playSound('click');
+            switchScreen('lesson');
+            
+            document.getElementById('lesson-loading-view').classList.remove('opacity-0', 'pointer-events-none');
+            
+            activeLesson.currentLevel = levelId;
+            activeLesson.questions = await loadAILesson(levelId);
+            activeLesson.currentQuestionIndex = 0;
+            
+            // Check Premium Heart configuration rules
+            if (userState.hasPremium) {
+                activeLesson.hearts = 9999;
+                document.getElementById('lesson-hearts').innerText = "∞";
+            } else {
+                activeLesson.hearts = 5;
+                document.getElementById('lesson-hearts').innerText = "5";
+            }
+            
+            activeLesson.answersSelected = [];
+            activeLesson.checked = false;
+
+            document.getElementById('lesson-loading-view').classList.add('opacity-0', 'pointer-events-none');
+            renderActiveQuestion();
+        }
+
+        // START CUSTOM AI SANDBOX LESSON
+        async function startSandboxLesson() {
+            const topic = document.getElementById('sandbox-topic-input').value.trim();
+            if (!topic) {
+                showToast("Please enter a custom French topic!");
+                return;
+            }
+            startLesson(topic);
+        }
+
+        function exitActiveLesson() {
+            playSound('click');
+            switchScreen('dashboard');
+        }
+
+        // EXERCISE RENDER ENGINE
+        function renderActiveQuestion() {
+            const question = activeLesson.questions[activeLesson.currentQuestionIndex];
+            
+            const percent = (activeLesson.currentQuestionIndex / activeLesson.questions.length) * 100;
+            document.getElementById('lesson-progress-bar').style.width = `${percent}%`;
+            document.getElementById('lesson-hearts').innerText = userState.hasPremium ? "∞" : activeLesson.hearts;
+
+            document.getElementById('lesson-exercise-instructions').innerText = question.instruction || "Interactive Exercise";
+            document.getElementById('lesson-exercise-prompt').innerText = question.prompt;
+            
+            speakFrenchCurrentPrompt();
+
+            const interactionArea = document.getElementById('exercise-interaction-area');
+            interactionArea.innerHTML = '';
+            activeLesson.answersSelected = [];
+            activeLesson.checked = false;
+
+            resetCheckBanner();
+
+            if (question.type === "multiple_choice") {
+                renderMultipleChoice(question, interactionArea);
+            } else if (question.type === "word_bank") {
+                renderWordBank(question, interactionArea);
+            } else if (question.type === "matching") {
+                renderMatching(question, interactionArea);
+            }
+        }
+
+        function resetCheckBanner() {
+            const banner = document.getElementById('lesson-check-banner');
+            banner.className = "border-t-2 border-[#e2e8f0] pt-6 flex flex-col md:flex-row items-center justify-between gap-4 mt-6 p-4 rounded-2xl transition-all";
+            banner.style.backgroundColor = "transparent";
+
+            const feedbackText = document.getElementById('check-feedback-text');
+            feedbackText.classList.add('hidden');
+            feedbackText.innerHTML = '';
+
+            const actionBtn = document.getElementById('lesson-action-btn');
+            actionBtn.innerText = "Check Answer";
+            actionBtn.className = "btn-3d w-full md:w-auto px-12 py-4 rounded-2xl";
+            actionBtn.style.setProperty('--shadow-color', '#cbd5e1');
+            actionBtn.style.setProperty('--bg-color', 'var(--brand-gray)');
+            actionBtn.style.setProperty('--border-color', 'var(--brand-gray)');
+            actionBtn.style.setProperty('--text-color', '#94a3b8');
+            actionBtn.disabled = true;
+        }
+
+        function activateCheckButton() {
+            const actionBtn = document.getElementById('lesson-action-btn');
+            actionBtn.className = "btn-3d w-full md:w-auto px-12 py-4 rounded-2xl";
+            actionBtn.style.setProperty('--shadow-color', 'var(--brand-primary-border)');
+            actionBtn.style.setProperty('--bg-color', 'var(--brand-primary)');
+            actionBtn.style.setProperty('--border-color', 'var(--brand-primary)');
+            actionBtn.style.setProperty('--text-color', '#ffffff');
+            actionBtn.disabled = false;
+        }
+
+        // LAYOUT SPECIFIC: MULTIPLE CHOICE
+        function renderMultipleChoice(question, container) {
+            const grid = document.createElement('div');
+            grid.className = "grid grid-cols-1 md:grid-cols-2 gap-4 w-full";
+            
+            question.options.forEach((opt) => {
+                const btn = document.createElement('button');
+                btn.className = "btn-3d w-full text-left p-4 select-option";
+                btn.style.setProperty('--shadow-color', 'var(--brand-gray)');
+                btn.style.setProperty('--border-color', 'var(--brand-gray)');
+                btn.innerText = opt;
+                btn.onclick = () => {
+                    if (activeLesson.checked) return;
+                    playSound('click');
+                    document.querySelectorAll('.select-option').forEach(b => {
+                        b.classList.remove('option-selected');
+                    });
+                    btn.classList.add('option-selected');
+                    activeLesson.answersSelected = [opt];
+                    activateCheckButton();
+                };
+                grid.appendChild(btn);
+            });
+            container.appendChild(grid);
+        }
+
+        // LAYOUT SPECIFIC: WORD BANK BUILDER
+        function renderWordBank(question, container) {
+            const layout = document.createElement('div');
+            layout.className = "space-y-6 w-full";
+
+            const workspace = document.createElement('div');
+            workspace.className = "word-bank-workspace p-3 flex flex-wrap gap-2 items-center w-full";
+            layout.appendChild(workspace);
+
+            const bank = document.createElement('div');
+            bank.className = "flex flex-wrap gap-2 p-4 bg-[#f8fafc] rounded-2xl border-2 border-[#e2e8f0] w-full justify-center";
+
+            question.options.forEach((word) => {
+                const btn = document.createElement('button');
+                btn.className = "btn-3d px-4 py-2 select-tile";
+                btn.style.setProperty('--shadow-color', 'var(--brand-gray)');
+                btn.innerText = word;
+                btn.onclick = () => {
+                    if (activeLesson.checked) return;
+                    playSound('click');
+                    if (btn.classList.contains('opacity-40')) {
+                        btn.classList.remove('opacity-40');
+                        activeLesson.answersSelected = activeLesson.answersSelected.filter(w => w !== word);
+                        rebuildWorkspace();
+                    } else {
+                        btn.classList.add('opacity-40');
+                        activeLesson.answersSelected.push(word);
+                        rebuildWorkspace();
+                    }
+                    if (activeLesson.answersSelected.length > 0) {
+                        activateCheckButton();
+                    } else {
+                        resetCheckBanner();
+                    }
+                };
+                bank.appendChild(btn);
+            });
+
+            function rebuildWorkspace() {
+                workspace.innerHTML = '';
+                activeLesson.answersSelected.forEach(word => {
+                    const block = document.createElement('span');
+                    block.className = "px-4 py-2 bg-white border-2 border-[#e2e8f0] rounded-xl font-bold shadow-sm cursor-pointer select-none animate-fade-in";
+                    block.innerText = word;
+                    block.onclick = () => {
+                        if (activeLesson.checked) return;
+                        playSound('click');
+                        activeLesson.answersSelected = activeLesson.answersSelected.filter(w => w !== word);
+                        const originalBtn = Array.from(bank.children).find(b => b.innerText === word);
+                        if (originalBtn) originalBtn.classList.remove('opacity-40');
+                        rebuildWorkspace();
+                        if (activeLesson.answersSelected.length === 0) resetCheckBanner();
+                    };
+                    workspace.appendChild(block);
+                });
+            }
+
+            layout.appendChild(bank);
+            container.appendChild(layout);
+        }
+
+        // LAYOUT SPECIFIC: GRID MATCH
+        function renderMatching(question, container) {
+            const layout = document.createElement('div');
+            layout.className = "grid grid-cols-2 gap-4 w-full max-w-md mx-auto";
+
+            let frList = question.pairs.map(p => ({ val: p.fr, type: 'fr' }));
+            let enList = question.pairs.map(p => ({ val: p.en, type: 'en' }));
+            
+            let combined = [...frList, ...enList].sort(() => Math.random() - 0.5);
+
+            let selectedTile = null;
+            let matchedPairsCount = 0;
+
+            combined.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = "btn-3d grid-tile";
+                btn.style.setProperty('--shadow-color', 'var(--brand-gray)');
+                btn.innerText = item.val;
+
+                btn.onclick = () => {
+                    if (activeLesson.checked || btn.disabled) return;
+                    playSound('click');
+
+                    if (selectedTile) {
+                        if (selectedTile === btn) {
+                            btn.classList.remove('option-selected');
+                            selectedTile = null;
+                        } else {
+                            const matchCandidateA = selectedTile.innerText;
+                            const matchCandidateB = btn.innerText;
+
+                            const isMatch = question.pairs.some(p => 
+                                (p.fr === matchCandidateA && p.en === matchCandidateB) || 
+                                (p.fr === matchCandidateB && p.en === matchCandidateA)
+                            );
+
+                            if (isMatch) {
+                                btn.classList.remove('option-selected');
+                                selectedTile.classList.remove('option-selected');
+                                
+                                btn.classList.add('option-correct');
+                                selectedTile.classList.add('option-correct');
+                                
+                                btn.disabled = true;
+                                selectedTile.disabled = true;
+                                selectedTile = null;
+                                matchedPairsCount++;
+
+                                if (matchedPairsCount === question.pairs.length) {
+                                    activeLesson.isCorrect = true;
+                                    activateCheckButton();
+                                }
+                            } else {
+                                btn.classList.add('option-incorrect');
+                                selectedTile.classList.add('option-incorrect');
+                                setTimeout(() => {
+                                    btn.classList.remove('option-incorrect');
+                                    selectedTile.classList.remove('option-incorrect');
+                                    selectedTile = null;
+                                }, 500);
+                            }
+                        }
+                    } else {
+                        selectedTile = btn;
+                        btn.classList.add('option-selected');
+                    }
+                };
+
+                layout.appendChild(btn);
+            });
+
+            container.appendChild(layout);
+        }
+
+        // VALIDATE THE SELECTED ANSWERS ON BUTTON CLICK
+        function checkOrNext() {
+            const question = activeLesson.questions[activeLesson.currentQuestionIndex];
+            const actionBtn = document.getElementById('lesson-action-btn');
+
+            if (!activeLesson.checked) {
+                activeLesson.checked = true;
+                let isCorrect = false;
+
+                if (question.type === "multiple_choice") {
+                    isCorrect = (activeLesson.answersSelected[0] === question.correct);
+                } else if (question.type === "word_bank") {
+                    isCorrect = (activeLesson.answersSelected.length === question.correct.length) &&
+                                activeLesson.answersSelected.every((val, idx) => val === question.correct[idx]);
+                } else if (question.type === "matching") {
+                    isCorrect = activeLesson.isCorrect;
+                }
+
+                const banner = document.getElementById('lesson-check-banner');
+                const feedbackText = document.getElementById('check-feedback-text');
+                feedbackText.classList.remove('hidden');
+
+                if (isCorrect) {
+                    playSound('success');
+                    banner.style.backgroundColor = "#dcfce7";
+                    banner.classList.add('border-[#22c55e]');
+                    feedbackText.innerHTML = `<span class="text-2xl">🎉</span> <strong class="text-[#15803d]">Correct! Excellent progress!</strong>`;
+                    
+                    document.getElementById('mascot-animation-box').classList.add('scale-125');
+                } else {
+                    playSound('fail');
+                    banner.style.backgroundColor = "#fee2e2";
+                    banner.classList.add('border-[#ef4444]');
+                    
+                    let correctAnswerString = Array.isArray(question.correct) ? question.correct.join(' ') : (question.correct || "N/A");
+                    feedbackText.innerHTML = `<span class="text-2xl">📝</span> <div class="text-left"><strong class="text-[#b91c1c]">Correction required:</strong><p class="text-sm text-[#475569]">Target phrase: <strong>${correctAnswerString}</strong></p></div>`;
+                    
+                    // Subtract heart if not premium
+                    if (!userState.hasPremium) {
+                        activeLesson.hearts--;
+                        document.getElementById('lesson-hearts').innerText = activeLesson.hearts;
+                    }
+                    
+                    document.getElementById('mascot-animation-box').classList.add('translate-y-2');
+                }
+
+                actionBtn.innerText = "Continue";
+                actionBtn.className = "btn-3d w-full md:w-auto px-12 py-4 rounded-2xl";
+                actionBtn.style.setProperty('--shadow-color', 'var(--brand-primary-border)');
+                actionBtn.style.setProperty('--bg-color', 'var(--brand-primary)');
+                actionBtn.style.setProperty('--border-color', 'var(--brand-primary)');
+                actionBtn.style.setProperty('--text-color', '#ffffff');
+
+                // MANDATORY PAYWALL CHECK: Run out of hearts
+                if (activeLesson.hearts <= 0 && !userState.hasPremium) {
+                    showToast("Out of hearts! Fauben Elite required to continue.");
+                    setTimeout(() => {
+                        exitActiveLesson();
+                        openSubscriptionModal(true); // Open in mandatory locked mode
+                    }, 1500);
+                    return;
+                }
+
+            } else {
+                document.getElementById('mascot-animation-box').classList.remove('scale-125', 'translate-y-2');
+
+                activeLesson.currentQuestionIndex++;
+                if (activeLesson.currentQuestionIndex < activeLesson.questions.length) {
+                    renderActiveQuestion();
+                } else {
+                    completeCurrentLesson();
+                }
+            }
+        }
+
+        function completeCurrentLesson() {
+            playSound('success');
+            
+            userState.xp += 15;
+            userState.streak += 1;
+            userState.gems += 20;
+
+            saveLocalStorageState();
+            updateAllUIStats();
+            
+            switchScreen('summary');
+        }
+
+        // GENERATE MOCK LEADERBOARD COMPETITORS
+        function loadLeaderboards() {
+            const dummyCompetitors = [
+                { name: "Marie Dubois (You)", xp: userState.xp, active: true },
+                { name: "Antoine Laurent", xp: 195, active: false },
+                { name: "Chantal Rousseau", xp: 155, active: false },
+                { name: "Pierre Lefèvre", xp: 95, active: false },
+                { name: "Sophie Picard", xp: 80, active: false }
+            ];
+
+            dummyCompetitors.sort((a,b) => b.xp - a.xp);
+
+            const container = document.getElementById('leaderboard-list');
+            container.innerHTML = '';
+
+            dummyCompetitors.forEach((c, index) => {
+                const item = document.createElement('div');
+                item.className = `flex items-center justify-between p-4 rounded-2xl border-2 ${c.active ? 'border-[#6366f1] bg-[#e0e7ff]/10' : 'border-[#e2e8f0] bg-white'} transition-all`;
+                
+                let rankBadge = `${index + 1}`;
+                if (index === 0) rankBadge = "🥇";
+                if (index === 1) rankBadge = "🥈";
+                if (index === 2) rankBadge = "🥉";
+
+                item.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <span class="text-xl font-black w-8 text-center text-[#64748b]">${rankBadge}</span>
+                        <div class="font-extrabold ${c.active ? 'text-[#4f46e5]' : 'text-[#1e293b]' || '#1e293b'}">${c.name}</div>
+                    </div>
+                    <div class="font-black text-sm text-[#64748b]">${c.xp} XP</div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // LOCAL STORAGE LOAD/SAVE HANDLERS
+        function saveLocalStorageState() {
+            if (!userState.username) return;
+            localStorage.setItem(`faubenlearn_state_${userState.username}`, JSON.stringify(userState));
+            // Track active global session
+            localStorage.setItem('faubenlearn_active_username', userState.username);
+        }
+
+        function loadLocalStorageState() {
+            const activeUser = localStorage.getItem('faubenlearn_active_username') || userState.username;
+            if (!activeUser) return;
+
+            const data = localStorage.getItem(`faubenlearn_state_${activeUser}`);
+            if (data) {
+                try {
+                    userState = JSON.parse(data);
+                } catch(e) {
+                    console.error("Local storage corrupt:", e);
+                }
+            }
+        }
+
+        window.onload = function() {
+            const lastActiveUser = localStorage.getItem('faubenlearn_active_username');
+            if (lastActiveUser) {
+                userState.username = lastActiveUser;
+                loadLocalStorageState();
+            }
+
+            if (userState.isLoggedIn) {
+                switchScreen('dashboard');
+            } else {
+                switchScreen('landing');
+            }
+
+            updateAllUIStats();
+            loadLeaderboards();
+
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.getVoices();
+            }
+        };
+
+    </script>
+</body>
+</html>
